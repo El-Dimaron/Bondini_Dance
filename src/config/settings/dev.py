@@ -1,0 +1,16 @@
+from config.settings.base import *  # NOQA:F403
+
+SECRET_KEY = "django-insecure-&=nand4!!4ul2+8od3u3zws1+je0al^_+-=5jf25^8b_tn*-f*"
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",  # NOQA:F405
+    }
+}
+
+STATIC_URL = "static/"
