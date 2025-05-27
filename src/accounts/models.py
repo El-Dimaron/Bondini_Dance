@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -62,29 +61,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_registration_duration(self):
         return f"Time on site {timezone.now() - self.date_joined}"
-
-
-class Group(models.Model):
-    name = models.CharField(max_length=120, null=False, blank=False)
-
-    plan_name = models.CharField(
-        max_length=120,
-        null=True,
-        blank=True,
-        choices=[
-            ("group", "Абонемент"),
-            ("personal", "Індивідуальне тренування"),
-        ],
-    )
-
-    description = models.TextField(max_length=500, null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-
-    schedule_day = models.CharField(max_length=120, null=True, blank=True)
-    schedule_time = models.TimeField(null=True, blank=True)
-    trainer = models.CharField(max_length=100, null=True, blank=True)
-
-    users = models.ManyToManyField(get_user_model(), related_name="dance_groups", blank=True)
-
-    def __str__(self):
-        return f"{self.name}"

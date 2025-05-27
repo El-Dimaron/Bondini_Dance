@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     "api",
     "common",
     "shop",
+    "trainings",
 ]
 
 MIDDLEWARE = [
