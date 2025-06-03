@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    {% load dict_extras %}
+
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+        <tr>
+            <th>Group</th>
+            {% for day in day_keys %}
+                <th>{{ day }}</th>
+            {% endfor %}
+                <th>{{ "Add time" }}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for row in calendar_data %}
+            <tr>
+                <td><strong>{{ row.name }}</strong></td>
+                {% for day in days %}
+                    <td>{{ row.schedule|get_item:day }}</td>
+                {% endfor %}
+                <td>{{ "text" }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

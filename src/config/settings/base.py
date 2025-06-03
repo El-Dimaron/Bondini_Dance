@@ -16,6 +16,8 @@ INSTALLED_APPS = [
     "common",
     "shop",
     "trainings",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -78,3 +80,7 @@ GRAPH_MODELS = {
     "all_applications": True,
     "group_models": True,
 }
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

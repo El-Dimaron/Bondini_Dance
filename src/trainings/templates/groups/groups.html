@@ -1,0 +1,99 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <!-- Search -->
+    <div class="d-flex justify-content-center my-3">
+        <form method="get" style="max-width: 600px; width: 100%;">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Пошук..." aria-label="Search">
+                <button type="submit" class="btn btn-outline-secondary">Шукати</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Назва групи</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Опис</th>
+            <th scope="col">Ціна</th>
+            <th scope="col">Тренер</th>
+            <th scope="col">Учасники</th>
+            <th scope="col">Create</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for group in groups %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td> {{ group.name }} </td>
+                <td> {{ group.get_plan_name_display }} </td>
+                <td> {{ group.description }} </td>
+                <td> {{ group.price }} </td>
+                <td> {{ group.trainer }} </td>
+                <td> {% for user in group.users.all %}
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }},{% if not forloop.last %}<br>{% endif %}
+                    {% endif %}
+                {% endfor %} </td>
+                <td><a type="button" class="btn btn-light" href={% url "groups:create_group" %}>Create</a></td>
+                <td><a type="button" class="btn btn-light" href={% url "groups:update_group" group.id %}>Update</a></td>
+                <td>
+                    <button type="button"
+                            class="btn btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-url="{% url 'groups:delete_group' group.id %}"
+                            data-name="{{ group.name }}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal Window: Delete Confirmation -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Підтвердити видалення</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Ви впевнені, що хочете видалити групу <strong id="groupNamePlaceholder"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <a id="confirmDeleteBtn" class="btn btn-danger" href="#">Так, видалити</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Window Logic: Delete Confirmation -->
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        const namePlaceholder = document.getElementById('groupNamePlaceholder');
+
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const url = button.getAttribute('data-url');
+            const name = button.getAttribute('data-name');
+
+            confirmBtn.href = url;
+            namePlaceholder.textContent = name;
+        });
+    </script>
+
+
+{% endblock content %}
