@@ -1,12 +1,16 @@
 asgiref==3.8.1
 black==25.1.0
 click==8.2.1
+crispy-bootstrap5==2025.4
 Django==5.2.1
+django-crispy-forms==2.4
 django-extensions==4.1
 django-multiselectfield==0.1.13
 django-phonenumber-field==8.1.0
+Faker==37.3.0
 flake8==7.2.0
 isort==6.0.1
+marshmallow==4.0.0
 mccabe==0.7.0
 mypy_extensions==1.1.0
 packaging==25.0
@@ -19,3 +23,5 @@ pydot==4.0.0
 pyflakes==3.3.2
 pyparsing==3.2.3
 sqlparse==0.5.3
+tzdata==2025.2
+webargs==8.7.0
