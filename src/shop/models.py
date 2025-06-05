@@ -5,6 +5,9 @@ from common.models import BaseModel
 
 
 class Category(BaseModel):
+    class Meta:
+        verbose_name_plural = "Categories"
+
     name = models.CharField(max_length=120, null=True, blank=True)
 
     def __str__(self):
@@ -36,6 +39,9 @@ class Item(BaseModel):
 
     def __str__(self):
         return self.name
+
+    def items_count(self):
+        return self.items.count()
 
 
 class Favorite(BaseModel):
