@@ -5,8 +5,8 @@ from trainings.constants.choices import DAYS_OF_WEEK
 
 
 class PlanNames(models.TextChoices):
-    GROUP = "group", "Абонемент"
-    PERSONAL = "person", "Індивідуальне тренування"
+    GROUP = "0", "Абонемент"
+    PERSONAL = "1", "Індивідуальне тренування"
 
 
 class Group(models.Model):

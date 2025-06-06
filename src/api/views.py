@@ -1,3 +1,15 @@
-from django.shortcuts import render  # NOQA: F401
+from django.contrib.auth import get_user_model
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from api.serializers import GroupSerializer, UserSerializer
+from trainings.models import Group
+
+
+class UserViewSet(ModelViewSet):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
