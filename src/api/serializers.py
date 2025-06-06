@@ -13,8 +13,22 @@ class UserSerializer(ModelSerializer):
 
 class GroupSerializer(ModelSerializer):
     users = UserSerializer(many=True, read_only=True)
-    plan_name = CharField(source="get_plan_name_display")
+    plan_name = CharField(source="get_plan_name_display", read_only=True)
 
     class Meta:
         model = Group
         fields = ["id", "name", "plan_name", "description", "price", "trainer", "users"]
+
+
+class GroupCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ["id", "name", "plan_name", "description", "price", "trainer"]
+
+
+class GroupUpdateSerializer(GroupCreateSerializer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.partial:
+            for field in self.fields.values():
+                field.required = True
