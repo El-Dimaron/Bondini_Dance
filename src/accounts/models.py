@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.managers import CustomUserManager
+from accounts.utils import user_photo_path
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -20,6 +21,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
 
+    username = models.CharField(max_length=150, unique=True, blank=True)
+
     phone_number = PhoneNumberField(_("phone number"), null=True, blank=True)
 
     is_staff = models.BooleanField(
@@ -32,12 +35,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         _("active"),
         default=True,
         help_text=_(
-            "Designates whether this user should be treated as active. " "Unselect this instead of deleting accounts."
+            "Designates whether this user should be treated as active." "Unselect this instead of deleting accounts."
         ),
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     birth_date = models.DateTimeField(_("birth date"), blank=True, null=True)
-    photo = models.ImageField(_("photo"), upload_to="img/profiles", null=True, blank=True)
+    photo = models.ImageField(_("photo"), upload_to=user_photo_path, null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -47,6 +50,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if not self.username:
+            self.username = f"bd{self.pk}"
+            super().save(update_fields=["username"])
 
     def clean(self):
         super().clean()

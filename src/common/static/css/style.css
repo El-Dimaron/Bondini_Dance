@@ -56,7 +56,7 @@ nav {
 }
 
 nav a {
-    margin-left: 1.5rem;
+    /*margin-left: 1.5rem;*/
     text-decoration: none;
     color: #343a40;
     font-weight: 500;
@@ -70,9 +70,11 @@ nav a.active,
 }
 
 .auth-buttons {
-    margin-left: 3rem;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 0.5rem;
+    margin-left: 1.5rem;
 }
 
 .btn {
@@ -147,7 +149,6 @@ nav a.active,
     padding: 2rem;
     text-align: center;
 }
-
 
 
 /* Hero Section */
@@ -247,4 +248,16 @@ footer {
     font-size: 0.9rem;
     margin-top: auto;
 
+}
+
+
+.dropdown-menu .dropdown-item {
+    color: #343a40;
+    background-color: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #6c47ff; /* your custom hover background */
+    color: #ffffff;             /* text color on hover */
 }

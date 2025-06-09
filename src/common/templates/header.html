@@ -10,9 +10,90 @@
         <a href="#" class="btn btn-outline-dark">Контакти</a>
         <a href="#" class="btn btn-outline-dark">Про нас</a>
 
-        <span class="auth-buttons">
-      <a href="#" class="btn btn-dark rounded-3 me-2">Увійти</a>
-      <a href="#" class="btn btn-primary rounded-3">Зареєструватись</a>
-    </span>
+        {% if user.is_authenticated %}
+
+            <div class="dropdown">
+                {% if user.photo %}
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{{ user.photo.url }}" alt="Profile" width="64" height="64" class="rounded-circle">
+                    </a>
+                {% else %}
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{% static 'images/default.jpg' %}" alt="Default" width="64" height="64"
+                             class="rounded-circle">
+                    </a>
+                {% endif %}
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Профіль</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Вийти</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+
+        {% else %}
+            <span class="auth-buttons">
+                    <a href="{% url "login" %}" class="btn btn-dark rounded-3 me-2">Увійти</a>
+                    <a href="{% url "registration" %}" class="btn btn-primary rounded-3">Зареєструватись</a>
+                    </span>
+        {% endif %}
+
+        {#        <div class="dropdown text-end">#}
+        {#            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"#}
+        {#               data-bs-toggle="dropdown" aria-expanded="false">#}
+        {#                {% if user.is_authenticated %}#}
+        {#                    {% if user.photo %}#}
+        {#                        <img src="{{ user.photo.url }}" alt="Profile" width="32" height="32" class="rounded-circle">#}
+        {#                    {% else %}#}
+        {#                        <img src="{% static 'images/default.jpg' %}" alt="Default" width="32" height="32"#}
+        {#                             class="rounded-circle">#}
+        {#                    {% endif %}#}
+        {#                {% else %}#}
+        {#                    <img src="{% static 'images/default.jpg' %}" alt="Guest" width="32" height="32"#}
+        {#                         class="rounded-circle">#}
+        {#                {% endif %}#}
+        {#            </a>#}
+        {##}
+        {#            <ul class="dropdown-menu text-small dropdown-menu-end mt-2">#}
+        {#                {% if user.is_authenticated %}#}
+        {#                    <li><a class="dropdown-item disabled">👋 {{ user.get_full_name|default:user.email }}</a></li>#}
+        {#                    <li><a class="dropdown-item" href="#">Profile</a></li>#}
+        {#                    <li><a class="dropdown-item" href="#">Change password</a></li>#}
+        {#                    <li>#}
+        {#                        <hr class="dropdown-divider">#}
+        {#                    </li>#}
+        {#                    <li>#}
+        {#                        <form method="post" action="{% url 'logout' %}" style="margin: 0;">#}
+        {#                            {% csrf_token %}#}
+        {#                            <button type="submit" class="dropdown-item text-danger">Logout</button>#}
+        {#                        </form>#}
+        {#                    </li>#}
+        {#                {% else %}#}
+        {#                    <li><a class="dropdown-item" href="#">Registration</a></li>#}
+        {#                    <li>#}
+        {#                        <hr class="dropdown-divider">#}
+        {#                    </li>#}
+        {#                    <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>#}
+        {#                    <li><a class="dropdown-item" href="#">Reset password</a></li>#}
+        {#                    <li>#}
+        {#                        <hr class="dropdown-divider">#}
+        {#                    </li>#}
+        {#                    <li><a class="dropdown-item" href="{% url 'social:begin' 'google-oauth2' %}">Login via Google</a>#}
+        {#                    </li>#}
+        {#                    <li><a class="dropdown-item" href="{% url 'social:begin' 'github' %}">Login via GitHub</a></li>#}
+        {#                    <li><a class="dropdown-item" href="{% url 'social:begin' 'spotify' %}">Login via Spotify</a></li>#}
+        {#                {% endif %}#}
+        {#            </ul>#}
+        {#        </div>#}
+
+
     </nav>
 </header>
