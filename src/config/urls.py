@@ -24,8 +24,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from common.views import (IndexView, UserLoginView, UserLogoutView,
-                          UserRegistrationView)
+from common.views import (ContactsView, IndexView, UserLoginView,
+                          UserLogoutView, UserRegistrationView)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -51,6 +51,7 @@ urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
     path("groups/", include("trainings.urls")),
+    path("contacts/", ContactsView.as_view(), name="contacts"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

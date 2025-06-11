@@ -28,3 +28,7 @@ class UserRegistrationView(CreateView):
         login(self.request, user)
 
         return response
+
+
+class ContactsView(TemplateView):
+    template_name = "contacts.html"

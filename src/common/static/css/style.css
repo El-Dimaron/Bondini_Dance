@@ -218,6 +218,13 @@ nav a.active,
     cursor: pointer;
 }
 
+.dot-divider {
+  width: 6px;
+  height: 6px;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+
 /* Features Section */
 .features {
     display: grid;
@@ -259,5 +266,5 @@ footer {
 
 .dropdown-menu .dropdown-item:hover {
     background-color: #6c47ff; /* your custom hover background */
-    color: #ffffff;             /* text color on hover */
+    color: #ffffff; /* text color on hover */
 }
