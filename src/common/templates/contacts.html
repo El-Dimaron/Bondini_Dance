@@ -1,0 +1,145 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row align-items-center">
+
+                    <!-- Контакти (Left Column) -->
+                    <div class="col-md-6">
+                        <h1 class="display-4 fw-bold">Контакти</h1>
+                        {#                        <p class="lead">Зв’яжіться з нами з будь-яких питань або пропозицій</p>#}
+                    </div>
+
+                    <!-- Соцмережі (Right Column) -->
+                    <div class="col-md-6 text-md-end mt-4 mt-md-0">
+                        <h5 class="mb-3">Ми в соціальних мережах</h5>
+
+                        <!-- Everything in one flex line -->
+                        <div class="d-inline-flex align-items-center flex-wrap gap-2">
+                            <div class="d-flex gap-3 lh-1">
+                                {#                            <a href="https://www.facebook.com/" target="_blank"#}
+                                {#                               class="text-decoration-none text-dark fs-4">#}
+                                {#                                <i class="bi bi-facebook"></i>#}
+                                {#                            </a>a#}
+                                <a href="https://www.instagram.com/bondini_dance/" target="_blank"
+                                   class="text-decoration-none text-dark fs-4">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+
+                                <a href="https://www.tiktok.com/@bondini" target="_blank"
+                                   class="text-decoration-none text-dark fs-4">
+                                    <i class="bi bi-tiktok"></i>
+                                </a>
+                                {#                            <a href="https://t.me/your_channel" target="_blank"#}
+                                {#                               class="text-decoration-none text-dark fs-4">#}
+                                {#                                <i class="bi bi-telegram"></i>#}
+                                {#                            </a>#}
+                                <a href="https://www.youtube.com/@bondiniarina" target="_blank"
+                                   class="text-decoration-none text-dark fs-4">
+                                    <i class="bi bi-youtube"></i>
+                                </a>
+
+                                {#                                <!-- Centered Dot -->#}
+                                {#                                <span class="dot-divider"></span>#}
+                                {##}
+                                {#                                <!-- Text -->#}
+                                {#                                <span class="fs-5 text-dark">#}
+                                {#                                    <strong>100 000</strong>&nbsp;підписників</span>#}
+
+                                <div class="d-flex align-items-center fs-5 text-dark">
+                                    <span class="dot-divider me-2"></span>
+                                    <span><strong>125 000</strong>&nbsp;підписників</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info Cards -->
+                    <section class="py-5">
+                        <div class="container">
+                            <div class="row text-center g-4">
+                                <div class="col-md-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Телефон</h5>
+                                            <p class="card-text"><a href="tel:+380991234567">+380 99 123 45 67</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Email</h5>
+                                            <p class="card-text"><a
+                                                    href="mailto:info@example.com">info@example.com</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card h-100 shadow-sm text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Адреса</h5>
+                                        <p
+                                                id="copy-address"
+                                                class="card-text text-primary text-decoration-underline cursor-pointer mb-0"
+                                                role="button"
+                                                onclick="copyAddress()">
+                                            м. Кропивницький, вул. Гагаріна, 9
+                                        </p>
+                                        <small id="copy-feedback" class="text-muted d-block mt-1"
+                                               style="display: none;">Скопійовано!</small>
+                                    </div>
+                                </div>
+
+                                {#                                <div class="col-md-4">#}
+                                {#                                    <div class="card h-100 shadow-sm">#}
+                                {#                                        <div class="card-body">#}
+                                {#                                            <h5 class="card-title">Адреса</h5>#}
+                                {#                                            <p class="card-text">м. Кропивницький, вул. Гагаріна, 9</p>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Google Map  -->
+                    <section class="pb-5">
+                        <div class="container">
+                            <div class="ratio ratio-16x9 shadow-sm rounded">
+                                <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d793.3417444010232!2d32.27040514341617!3d48.5129854523956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d042adb58fffff%3A0x8bf03cd7c52742fd!2sBodyBoom%20Studio!5e1!3m2!1sen!2sua!4v1749542731433!5m2!1sen!2sua"
+                                        width="600"
+                                        height="450"
+                                        style="border:0;"
+                                        allowfullscreen=""
+                                        loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                        </div>
+                    </section>
+
+                    <script>
+                        function copyAddress() {
+                            const text = "м. Кропивницький, вул. Гагаріна, 9";
+                            navigator.clipboard.writeText(text).then(() => {
+                                const feedback = document.getElementById("copy-feedback");
+                                feedback.style.display = "inline";
+                                setTimeout(() => {
+                                    feedback.style.display = "none";
+                                }, 2000);
+                            });
+                        }
+                    </script>
+
+    </main>
+
+{% endblock content %}

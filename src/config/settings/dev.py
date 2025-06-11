@@ -1,3 +1,5 @@
+import os
+
 from config.settings.base import *  # NOQA:F403
 
 SECRET_KEY = "django-insecure-&=nand4!!4ul2+8od3u3zws1+je0al^_+-=5jf25^8b_tn*-f*"
@@ -17,3 +19,10 @@ DATABASES = {
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "common/static"]  # NOQA:F405
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # NOQA:F405
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

@@ -6,7 +6,7 @@ from api.views import (GroupCreateApiView, GroupListApiView,
 
 app_name = "api"
 user_router = routers.DefaultRouter()
-user_router.register("users", UserViewSet)
+user_router.register("users", UserViewSet, basename="users")
 
 urlpatterns = [
     path("", include(user_router.urls)),
