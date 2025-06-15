@@ -79,7 +79,7 @@ class TestApi(TestCase):
             result.data,
             [
                 {
-                    "id": 1,
+                    "id": self.user.id,
                     "first_name": "Test name",
                     "last_name": "Test surname",
                     "email": "test_user@email.com",
