@@ -96,11 +96,23 @@ nav a.active,
     transform: scale(1.05);
 }
 
-/*.btn-purple:hover {*/
-/*    transform: scale(1.05);*/
-/*    box-shadow: 0 4px 12px rgba(108, 71, 255, 0.25);*/
-/*    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;*/
-/*}*/
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+}
+
+.product-card img {
+    transition: transform 0.3s ease;
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
 
 .auth-buttons .btn {
     margin: 0;
@@ -268,3 +280,5 @@ footer {
     background-color: #6c47ff; /* your custom hover background */
     color: #ffffff; /* text color on hover */
 }
+
+
