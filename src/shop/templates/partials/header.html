@@ -1,15 +1,15 @@
 {% load static %}
 
 <header>
-    <h2><a href="{% url 'index' %}" class="custom-link">Bondini Dance</a></h2>
+    <h2><a href="{% url 'index' %}" class="custom-link">Bondini Shop</a></h2>
     <nav>
-        <a href="{% url 'index' %}" class="btn btn-outline-dark">Головна</a>
-        <a href="{% url 'groups:get_groups' %}" class="btn btn-outline-dark">Групи</a>
-        <a href="{% url 'groups:schedule' %}" class="btn btn-outline-dark">Графік Тренувань</a>
-        <a href="{% url 'shop:home' %}" class="btn btn-outline-dark">Магазин</a>
-        <a href="{% url 'contacts' %}" class="btn btn-outline-dark">Контакти</a>
-        <a href="#" class="btn btn-outline-dark">Про нас</a>
-
+        <a href="{% url 'index' %}" class="btn btn-outline-dark">Bondini Dance</a>
+        <a href="#" class="nav-link position-relative">
+            <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ cart_items|length }}
+                        </span>
+        </a>
         {% if user.is_authenticated %}
 
             <div class="dropdown">
@@ -28,7 +28,9 @@
 
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Профіль</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li>
                         <form method="POST" action="{% url 'logout' %}">
                             {% csrf_token %}

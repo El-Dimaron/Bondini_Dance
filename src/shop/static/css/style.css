@@ -1,0 +1,24 @@
+.hero {
+    background-image: url('https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/enUS/Images/d-fw23-homepage-mh-d_tcm221-1043845.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.product-card img {
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.05);
+}

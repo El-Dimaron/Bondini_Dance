@@ -26,7 +26,7 @@ class Item(BaseModel):
     description = models.TextField(max_length=250, null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     part_number = models.CharField(max_length=100, unique=True)
-    image = models.ImageField(default="default.png", upload_to="media/shop/items", null=True, blank=True)
+    image = models.ImageField(default="default.png", upload_to="shop/items", null=True, blank=True)
     available = models.CharField(
         choices=[
             ("in_stock", "Є в наявності"),
