@@ -16,6 +16,20 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.12.4", "3.13"]
 
+    services:
+      postgres:
+        image: postgres:17.5
+      ports:
+        - "5432:5432"
+      env:
+        POSTGRES_PASSWORD: postgres
+      options:
+        healthcheck:
+          test: [ "CMD-SHELL", "pg_isready" ]
+          interval: 5s
+          timeout: 3s
+          retries: 5
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}

@@ -32,5 +32,20 @@ services:
       timeout: 3s
       retries: 5
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "5001:80"
+    volumes:
+      - pg_admin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+
 volumes:
   pg_data: { }
+  pg_admin: { }
