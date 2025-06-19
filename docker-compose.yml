@@ -17,6 +17,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      mongo:
+        condition: service_healthy
 
   postgres:
     image: postgres:17.5
@@ -45,7 +47,22 @@ services:
     depends_on:
       - postgres
 
+  mongo:
+    image: mongo:7.0
+    container_name: mongo_container
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   pg_data: { }
   pg_admin: { }
+  mongo_data: { }
