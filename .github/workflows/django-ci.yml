@@ -19,15 +19,15 @@ jobs:
     services:
       postgres:
         image: postgres:17.5
-      ports:
-        - 5432:5432
-      env:
-        POSTGRES_PASSWORD: postgres
-      options: >-
-        --health-cmd pg_isready
-        --health-interval 5s
-        --health-timeout 3s
-        --health-retries 5
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v3
