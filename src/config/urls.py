@@ -51,6 +51,7 @@ urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
     path("groups/", include("trainings.urls")),
+    path("shop/", include("shop.urls")),
     path("contacts/", ContactsView.as_view(), name="contacts"),
 ]
 
