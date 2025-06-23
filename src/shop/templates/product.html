@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+
+    <main class="page-wrapper">
+
+        <!-- ───────────  Image Gallery  ─────────── -->
+        <section class="gallery">
+            <img id="hero" class="hero-img" src="{{ item.image.url }}" alt="Product hero image">
+
+            {#        <div class="thumb-row">#}
+            {#            {% for image in item.image %}#}
+            {#                <div class="thumb active"><img src="{{ image }}" alt="thumb {{ forloop.counter }}"></div>#}
+            {#            {% endfor  %}#}
+            {#        </div>#}
+        </section>
+
+        <!-- ───────────  Product Details  ─────────── -->
+        <section class="details">
+            <div>
+                <p class="brand">Bondini</p>
+                <h1 class="title">{{ item.name }}</h1>
+                <p class="price">{{ item.price }}₴</p>
+            </div>
+
+            <!-- Colors -->
+            <div>
+                <h4 style="margin-bottom: .5rem; font-weight:600;">Колір</h4>
+                <div class="color-options">
+                    <div class="color-swatch active" style="background:#ffffff;" title="White"></div>
+                    <div class="color-swatch" style="background:#000000;" title="Black"></div>
+                    <div class="color-swatch" style="background:#d9272e;" title="Red"></div>
+                </div>
+            </div>
+
+            <!-- Sizes -->
+            <div>
+                <h4 style="margin-bottom: .5rem; font-weight:600;">Розмір</h4>
+                <div class="size-options">
+                    <button class="size-btn">7</button>
+                    <button class="size-btn">8</button>
+                    <button class="size-btn active">9</button>
+                    <button class="size-btn">10</button>
+                    <button class="size-btn">11</button>
+                </div>
+            </div>
+
+            <button class="add-cart">Додати до кошику</button>
+            <button class="favourite">Улюблене</button>
+
+            <div class="description">
+                {{ item.description }}
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simple gallery swap logic
+        const hero = document.getElementById('hero');
+        const thumbs = document.querySelectorAll('.thumb');
+
+        thumbs.forEach(t => t.addEventListener('click', () => {
+            thumbs.forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            hero.src = t.querySelector('img').src;
+        }));
+
+        // Toggle active states for size buttons
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        sizeBtns.forEach(btn => btn.addEventListener('click', () => {
+            sizeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }));
+
+        // Toggle active states for color swatches
+        const colors = document.querySelectorAll('.color-swatch');
+        colors.forEach(c => c.addEventListener('click', () => {
+            colors.forEach(s => s.classList.remove('active'));
+            c.classList.add('active');
+        }));
+    </script>
+{% endblock %}
