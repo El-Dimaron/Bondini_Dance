@@ -17,6 +17,7 @@ django-phonenumber-field==8.1.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
 djoser==2.3.1
+dnspython==2.7.0
 drf-yasg==1.21.10
 Faker==37.3.0
 flake8==7.2.0
@@ -26,6 +27,7 @@ isort==6.0.1
 Markdown==3.8
 marshmallow==4.0.0
 mccabe==0.7.0
+mongoengine==0.29.1
 mypy_extensions==1.1.0
 oauthlib==3.2.2
 packaging==25.0
@@ -40,6 +42,7 @@ pydot==4.0.0
 pyflakes==3.3.2
 pyjokes==0.8.3
 PyJWT==2.9.0
+pymongo==4.13.2
 pyparsing==3.2.3
 python-dotenv==1.1.0
 python3-openid==3.2.0

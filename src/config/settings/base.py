@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "accounts",
     "api",
+    "blog",
     "common",
     "shop",
     "trainings",

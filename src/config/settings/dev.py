@@ -1,5 +1,6 @@
 import os
 
+import mongoengine
 from dotenv import load_dotenv
 
 from config.settings.base import *  # NOQA:F403
@@ -13,6 +14,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS += ["django_extensions"]  # NOQA: F405
 
 load_dotenv()
+
+mongoengine.connect(
+    host=os.environ.get("DJANGO_MONGO_CONNECTION"),
+)
 
 IS_DOCKER = os.environ.get("DOCKER", "0") == "1"
 
@@ -52,8 +57,6 @@ else:
     }
 
 STATIC_URL = "/static/"
-# STATICFILES_DIRS = [BASE_DIR / "common/static"]  # NOQA:F405
-# STATICFILES_DIRS = [BASE_DIR / "src", "static"]  # NOQA:F405
 STATICFILES_DIRS = [BASE_DIR / "static"]  # NOQA:F405
 
 MEDIA_URL = "/media/"

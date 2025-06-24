@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Wrong address</title>
+    <link rel="stylesheet" href="{% static 'common/css/404.css' %}">
+</head>
+<body>
+<div class="container">
+    <h1>404</h1>
+    <div class="flex-row">
+        <img src="{% static 'common/images/black-cat.png' %}" alt="Black Cat" class="cat-img">
+        <h2>А куди це ви пішли?</h2>
+    </div>
+    <h3>Такої сторінки я не знаю... Давайте краще повернемось <a href="{% url 'index' %}">додому</a>!</h3>
+</div>
+</body>
+</html>
