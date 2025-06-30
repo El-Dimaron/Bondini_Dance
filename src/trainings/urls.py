@@ -1,7 +1,7 @@
 from django.urls import path
 
 from trainings.views import (CreateGroupView, DeleteGroupView, ListGroupsView,
-                             ScheduleView, UpdateGroupView)
+                             ScheduleView, UpdateGroupView, groups)
 
 app_name = "groups"
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path("update/<str:id>/", UpdateGroupView.as_view(), name="update_group"),
     path("delete/<str:id>/", DeleteGroupView.as_view(), name="delete_group"),
     path("schedule", ScheduleView.as_view(), name="schedule"),
+    path("generate/", groups, name="generate_groups"),
 ]

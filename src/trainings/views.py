@@ -1,6 +1,7 @@
 import datetime
 
 from django.db.models import Q
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, ListView, TemplateView,
@@ -11,6 +12,7 @@ from webargs.djangoparser import use_args
 from trainings.constants.choices import DAYS_OF_WEEK
 from trainings.forms import GroupForm
 from trainings.models import Group
+from trainings.tasks import generate_groups
 
 
 class ListGroupsView(ListView):
@@ -85,3 +87,12 @@ class ScheduleView(TemplateView):
         context["day_keys"] = keys
         context["calendar_data"] = calendar_data
         return context
+
+
+def groups(request: HttpRequest) -> HttpResponse:
+    try:
+        count = int(request.GET.get("count", 1))
+    except ValueError:
+        count = 1
+    generate_groups.delay(count)
+    return HttpResponse("Task generate_groups started")

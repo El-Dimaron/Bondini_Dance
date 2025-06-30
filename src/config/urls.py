@@ -37,6 +37,7 @@ urlpatterns = [
     path("shop/", include("shop.urls")),
     path("contacts/", ContactsView.as_view(), name="contacts"),
     path("blog/", include("blog.urls")),
+    path("users/", include("accounts.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

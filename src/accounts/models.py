@@ -1,8 +1,11 @@
+import datetime
+
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from faker import Faker
 from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.managers import CustomUserManager
@@ -71,3 +74,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_registration_duration(self):
         return f"Time on site {timezone.now() - self.date_joined}"
+
+    @classmethod
+    def generate_users(cls, count):
+        date_of_birth = Faker().date_of_birth(minimum_age=3, maximum_age=21)
+        aware_birth_date = timezone.make_aware(datetime.datetime.combine(date_of_birth, datetime.time.min))
+        for _ in range(count):  # NOQA: F402
+            user = cls.objects.create(
+                first_name=Faker().first_name(),
+                last_name=Faker().last_name(),
+                email=Faker().email(),
+                birth_date=aware_birth_date,
+            )
+            user.set_password("SecureP@ssw0rd123")
+            user.save()

@@ -41,7 +41,7 @@ else:
             "USER": os.environ.get("POSTGRES_USER"),
             "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
             "HOST": "postgres" if IS_DOCKER else "localhost",
-            "PORT": os.environ.get("POSTGRES_PORT"),
+            "PORT": "5432" if IS_DOCKER else os.environ.get("POSTGRES_PORT"),
         },
     }
 

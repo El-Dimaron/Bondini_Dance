@@ -1,5 +1,8 @@
+import random
+
 from django.contrib.auth import get_user_model
 from django.db import models
+from faker import Faker
 
 from common.models import BaseModel
 
@@ -13,12 +16,26 @@ class Category(BaseModel):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def generate_categories(cls, count):
+        for i in range(count):
+            category = Category(name=f"{Faker().word()}")
+            category.save()
+        return Category.objects.all()
+
 
 class Tag(BaseModel):
     name = models.CharField(max_length=120, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def generate_tags(cls, count):
+        for i in range(count):
+            tag = Tag(name=f"{Faker().word()}")
+            tag.save()
+        return Tag.objects.all()
 
 
 class Item(BaseModel):
@@ -42,6 +59,41 @@ class Item(BaseModel):
 
     def items_count(self):
         return self.items.count()
+
+    @classmethod
+    def generate_items(cls, count):
+        num = 0
+        clothing_items = [
+            "T-shirt",
+            "Jeans",
+            "Sweater",
+            "Hoodie",
+            "Jacket",
+            "Sneakers",
+            "Cap",
+            "Shorts",
+            "Long Shorts",
+            "Leggins",
+            "Skirt",
+            "Scarf",
+            "Gloves",
+        ]
+        categories = Category.objects.all()
+        tags = Tag.objects.all()
+
+        for i in range(count):
+            item = cls.objects.create(
+                name=f"{random.choice(clothing_items)} - {num}",
+                description=Faker().text(max_nb_chars=250),
+                price=random.randint(200, 3000),
+                part_number=f"bd_item_{num}_{random.randint(1, 500)}",
+                available=random.choice(("in_stock", "not_available", "contact_us")),
+                category=random.choice(categories) if categories else None,
+            )
+
+            if tags.exists():
+                item.tags.set(random.sample(list(tags.all()), k=random.randint(1, 3)))
+            num += 1
 
 
 class Favorite(BaseModel):

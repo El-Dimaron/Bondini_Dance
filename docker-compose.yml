@@ -4,7 +4,7 @@ services:
     container_name: bd_server_container
     working_dir: /bd_server
     ports:
-      - 8000:8015
+      - ${LOCAL_PORT}:${WSGI_PORT}
     env_file:
       - .env
     environment:
@@ -19,8 +19,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      mongo:
-        condition: service_healthy
+#      mongo:
+#        condition: service_healthy
 
   postgres:
     image: postgres:17.5
@@ -48,35 +48,35 @@ services:
       - pg_admin:/var/lib/pgadmin
     depends_on:
       - postgres
-
-  mongo:
-    image: mongo:7.0
-    container_name: mongo_container
-    ports:
-      - 27017:27017
-    env_file:
-      - .env
-    volumes:
-      - mongo_data:/data/db
-    restart: on-failure
-    healthcheck:
-      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  mongoadmin:
-    image: mongo-express
-    restart: on-failure
-    container_name: mongo_admin_container
-    ports:
-      - 8081:8081
-    env_file:
-      - .env
-    links:
-      - mongo
-    depends_on:
-      - mongo
+#
+#  mongo:
+#    image: mongo:7.0
+#    container_name: mongo_container
+#    ports:
+#      - 27017:27017
+#    env_file:
+#      - .env
+#    volumes:
+#      - mongo_data:/data/db
+#    restart: on-failure
+#    healthcheck:
+#      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#
+#  mongoadmin:
+#    image: mongo-express
+#    restart: on-failure
+#    container_name: mongo_admin_container
+#    ports:
+#      - 8081:8081
+#    env_file:
+#      - .env
+#    links:
+#      - mongo
+#    depends_on:
+#      - mongo
 
   nginx:
     image: nginx:1.19
@@ -92,7 +92,85 @@ services:
     depends_on:
       - backend
 
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    env_file:
+      - .env
+    restart: on-failure
+    depends_on:
+      - backend
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight_container
+    ports:
+      - 5540:5540
+    restart: on-failure
+    volumes:
+      - redisinsight_data:/data
+    depends_on:
+      - redis
+
+  celery:
+    build: ./
+    container_name: celery-container
+    command:
+#      - ./commands/start_celery.sh
+      - ./commands/start_celery_and_flower.sh
+    restart: on-failure
+    volumes:
+      - ./src:/bd_server
+      - ./commands:/bd_server/commands
+    env_file:
+      - .env
+    ports:
+      - 5556:5555
+    environment:
+      DOCKER: "1"
+    depends_on:
+      - backend
+      - redis
+
+#  flower:
+#    build: ./
+#    container_name: flower-container
+#    volumes:
+#      - ./src:/bd_server
+#    env_file:
+#      - .env
+#    environment:
+#      DOCKER: "1"
+#    command: celery -A config flower --broker=redis://redis
+#    ports:
+#      - 5556:5555
+#    depends_on:
+#      - celery
+
+  celerybeat:
+    build: ./
+    container_name: celerybeat-container
+    command:
+      - ./commands/start_celerybeat.sh
+    restart: on-failure
+    volumes:
+      - ./src:/bd_server
+      - ./commands:/bd_server/commands
+    env_file:
+      - .env
+    environment:
+      DOCKER: "1"
+    depends_on:
+      - backend
+      - redis
+
+
+
+
+
 volumes:
   pg_data: { }
   pg_admin: { }
-  mongo_data: { }
+  redisinsight_data: {}
+#  mongo_data: { }
