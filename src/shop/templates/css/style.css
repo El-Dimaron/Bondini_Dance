@@ -154,3 +154,29 @@ a {
     opacity: .85;
     line-height: 1.6;
 }
+
+.favorite-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ced4da;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #6c757d; /* gray heart */
+    font-size: 1.1rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.favorite-btn:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+}
+
+.favorite-btn.favorited {
+    color: #dc3545; /* red heart when active */
+    border-color: #dc3545;
+}

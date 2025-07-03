@@ -1,20 +1,8 @@
 {% extends "base.html" %}
-
 {% load static %}
 
-{% block title %}Головна — MyShop{% endblock %}
 
 {% block content %}
-
-    <!-- Hero Banner -->
-    <section class="hero">
-        <div class="container">
-            <h1>Нова Колекція 2025</h1>
-            <p><a href="#" class="btn btn-light btn-lg mt-3">Переглянути зараз</a></p>
-        </div>
-    </section>
-
-    <!-- Products -->
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-4"></h2>
@@ -31,10 +19,7 @@
                                 <p class="text-muted">{{ item.price }}</p>
 
                                 <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
-                                    <form method="post" action="{% url 'shop:add_to_basket' item.id %}" class="m-0">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-dark btn-sm">Купити</button>
-                                    </form>
+                                    <a href="#" class="btn btn-dark btn-sm">Купити</a>
 
                                     <form method="post" action="{% url 'shop:toggle_favorite' item.id %}" class="m-0">
                                         {% csrf_token %}
@@ -48,11 +33,6 @@
                                             {% endif %}
                                         </button>
                                     </form>
-
-                                    {#                                    <form method="post" action="{% url 'shop:add_to_basket' item.id %}" class="m-0">#}
-                                    {#                                        {% csrf_token %}#}
-                                    {#                                        <button type="submit" class="favorite-btn">Кошик</button>#}
-                                    {#                                    </form>#}
                                 </div>
 
 

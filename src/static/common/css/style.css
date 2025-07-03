@@ -96,6 +96,29 @@ nav a.active,
     transform: scale(1.05);
 }
 
+.favorite-btn {
+    width: 32px;
+    height: 32px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.favorite-btn:hover {
+    background-color: #ffeeee;
+}
+
+.favorite-btn.favorited {
+    color: #dc3545;
+}
+
 .product-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -103,7 +126,6 @@ nav a.active,
 .product-card:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-
 }
 
 .product-card img {

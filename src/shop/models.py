@@ -100,6 +100,9 @@ class Favorite(BaseModel):
     user = models.ForeignKey(get_user_model(), related_name="favorite", on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name="favorite", on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ("user", "item")
+
 
 class Basket(BaseModel):
     user = models.ForeignKey(get_user_model(), related_name="basket", on_delete=models.SET_NULL, null=True, blank=True)

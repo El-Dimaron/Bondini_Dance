@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <h2>Кошик</h2>
+
+    {% for basket_item in items %}
+        <div class="card mb-2 p-2">
+            <h5>{{ basket_item.item.name }}</h5>
+            <p>Ціна: {{ basket_item.item.price }}</p>
+            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+            <p>Кількість: {{ basket_item.quantity }}</p>
+            <form method="post" action="{% url 'shop:basket_update' basket_item.id %}">
+                {% csrf_token %}
+                <button type="submit" name="action" class="btn btn-light" value="decrease">−</button>
+                <span>{{ basket_item.quantity }}</span>
+                <button type="submit" name="action" class="btn btn-light" value="increase">+</button>
+                <button type="submit" name="action" class="btn btn-light" value="delete">Видалити</button>
+            </form>
+        </div>
+        <p>Загальна сума: {{ total }}</p>
+    {% empty %}
+        <p>Ваш кошик порожній</p>
+    {% endfor %}
+
+{% endblock %}
