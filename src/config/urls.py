@@ -7,8 +7,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from common.views import (ContactsView, IndexView, UserLoginView,
-                          UserLogoutView, UserRegistrationView)
+from accounts.views import UserLoginView, UserLogoutView, UserRegistrationView
+from trainings.views import ContactsView, IndexView
 
 schema_view = get_schema_view(
     openapi.Info(

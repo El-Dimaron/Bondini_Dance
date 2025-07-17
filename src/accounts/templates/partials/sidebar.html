@@ -1,0 +1,21 @@
+<div class="col-md-3">
+    <div class="list-group">
+        <a href="{% url "accounts:user_profile" %}"
+           class="list-group-item list-group-item-action {% if request.resolver_match.url_name == "accounts:user_profile" %}active{% endif %}">
+            Мій профіль
+        </a>
+        <a href="{% url 'shop:order_list' %}" class="list-group-item list-group-item-action">
+            Замовлення
+        </a>
+        <a href="{% url 'shop:favorites' %}"
+           class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'favorites' %}active{% endif %}">
+            Улюблені
+        </a>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="list-group-item list-group-item-action text-danger">
+                Вийти
+            </button>
+        </form>
+    </div>
+</div>

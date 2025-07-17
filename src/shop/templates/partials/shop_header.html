@@ -1,0 +1,32 @@
+{% extends "base_header.html" %}
+
+{% block brand %}
+    <a href="{% url 'shop:home' %}" class="custom-link">Bondini Shop</a>
+{% endblock %}
+
+{% block nav_links %}
+    <a href="{% url 'index' %}" class="btn btn-outline-dark">Bondini Dance</a>
+
+    <div style="height: 24px; width: 1px; background-color: rgba(0, 0, 0, 0.2); margin: 0 12px;"></div>
+
+    <a href="{% url 'shop:home' %}" class="btn btn-outline-dark">Каталог</a>
+    <a href="{% url 'shop:favorites' %}" class="btn btn-outline-dark">Улюблене</a>
+    <a href="{% url 'shop:sale' %}" class="btn btn-outline-dark">Розпродаж</a>
+    <a href="{% url 'shop:new_collection' %}" class="btn btn-outline-dark">Нові колекції</a>
+    {% if user.is_authenticated %}
+        {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'shop:order_list' %}" class="btn btn-outline-dark">Всі замовлення</a>
+        {% else %}
+            <a href="{% url 'shop:order_list' %}" class="btn btn-outline-dark">Мої замовлення</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block cart_icon %}
+    <a href="{% url 'shop:basket' %}" class="nav-link position-relative">
+        <i class="bi bi-cart" style="font-size: 1.5rem;"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ basket_quantity }}
+        </span>
+    </a>
+{% endblock %}

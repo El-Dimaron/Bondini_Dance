@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #eee;
+        }
+
+        h2 {
+            color: #6c47ff;
+        }
+
+        .item {
+            margin-bottom: 10px;
+        }
+
+        .item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Створено замовлення №{{ order.id }}</h2>
+
+    <p><strong>Ім’я:</strong> {{ order.full_name }}</p>
+    <p><strong>Телефон:</strong> {{ order.phone_number }}</p>
+    <p><strong>Email:</strong> {{ order.email|default:"-" }}</p>
+    <p><strong>Примітки:</strong> {{ order.notes|default:"-" }}</p>
+
+    <hr>
+
+    <h3>Товари:</h3>
+    {% for item in order.basket.basket_items.all %}
+        • {{ item.item.name }}
+        Ціна: {{ item.item.price }} грн
+        Кількість: {{ item.quantity }}
+{#        Посилання: {{ request.build_absolute_uri|slice:":-1" }}{% url 'shop:product_details' item.item.pk %}#}
+    {% endfor %}
+
+
+
+    <hr>
+    <p><strong>Сума до оплати:</strong> {{ order.total_price }} грн</p>
+
+    <div class="footer">
+        Це автоматичний лист. Будь ласка, не відповідайте на нього.
+    </div>
+</div>
+</body>
+</html>

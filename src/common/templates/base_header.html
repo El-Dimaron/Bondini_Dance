@@ -1,0 +1,45 @@
+{% load static %}
+
+<header>
+    <h2>{% block brand %}<a href="{% url 'index' %}" class="custom-link">Bondini</a>{% endblock %}</h2>
+
+    <nav class="d-flex align-items-center gap-2 mt-2">
+
+        {% block nav_links %}
+        {% endblock %}
+
+        {% block cart_icon %}
+        {% endblock %}
+
+        {% if user.is_authenticated %}
+            <div class="dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <img src="
+
+                            {% if user.photo %}{{ user.photo.url }}{% else %}{% static 'common/images/default_user.png' %}{% endif %}"
+                         alt="Profile" width="64" height="64" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'accounts:user_profile' %}">Профіль</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Вийти</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+
+        {% else %}
+            <span class="auth-buttons">
+                <a href="{% url "login" %}" class="btn btn-dark rounded-3 me-2">Увійти</a>
+                <a href="{% url "registration" %}" class="btn btn-primary rounded-3">Зареєструватись</a>
+            </span>
+        {% endif %}
+    </nav>
+</header>

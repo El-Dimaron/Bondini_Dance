@@ -15,6 +15,14 @@ from trainings.models import Group
 from trainings.tasks import generate_groups
 
 
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+
+class ContactsView(TemplateView):
+    template_name = "contacts.html"
+
+
 class ListGroupsView(ListView):
     model = Group
     template_name = "groups/groups.html"
@@ -40,6 +48,12 @@ class ListGroupsView(ListView):
             queryset = queryset.filter(or_filter)
 
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_query"] = self.request.GET.get("search", "")
+
+        return context
 
 
 class CreateGroupView(CreateView):

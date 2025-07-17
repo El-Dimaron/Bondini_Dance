@@ -1,7 +1,8 @@
+import os
 from datetime import timedelta
 from pathlib import Path
 
-from celery.schedules import crontab
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -12,7 +13,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_celery_beat",
     "debug_toolbar",
     "phonenumber_field",
     "accounts",
@@ -78,7 +78,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kyiv"
 
 USE_I18N = True
 
@@ -114,28 +114,22 @@ DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "/password-reset/{uid}/{token}",
 }
 
+
+LOGIN_URL = "/login/"
+
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "login"
 
-CELERY_BROKER_URL = "redis://redis"
-CELERY_BROKER_BACKEND = "redis://redis"
 
-CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
+load_dotenv()
 
-CELERY_BEAT_SCHEDULE = {
-    "i_am_rich": {"task": "shop.tasks.mine_bitcoin", "schedule": crontab(minute="*/2")},
-    "birthday_present": {
-        "task": "shop.tasks.mine_birthday_bitcoin",
-        "schedule": crontab(minute=42, hour=8, day_of_month=12, month_of_year=3),
-    },
-    "twelve_tuesday": {
-        "task": "shop.tasks.mine_bitcoin_on_lazy_tuesday",
-        "schedule": crontab(minute=0, hour=12, day_of_week=2),
-    },
-    "summon_satan": {
-        "task": "shop.tasks.mine_bitcoin_for_satan",
-        "schedule": crontab(minute=13, hour="*", day_of_month=13, month_of_year="*", day_of_week=5),
-    },
-}
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_FAIL_SILENTLY = True

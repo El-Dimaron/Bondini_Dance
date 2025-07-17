@@ -1,0 +1,17 @@
+{% extends "base_header.html" %}
+
+{% block brand %}
+    <a href="{% url 'index' %}" class="custom-link">Bondini Dance</a>
+{% endblock %}
+
+{% block nav_links %}
+    <a href="{% url 'shop:home' %}" class="btn btn-outline-dark">Магазин</a>
+
+    <div style="height: 24px; width: 1px; background-color: rgba(0, 0, 0, 0.2); margin: 0 12px;"></div>
+
+    <a href="{% url 'index' %}" class="btn btn-outline-dark">Головна</a>
+    <a href="{% url 'groups:get_groups' %}" class="btn btn-outline-dark">Групи</a>
+    <a href="{% url 'groups:schedule' %}" class="btn btn-outline-dark">Графік Тренувань</a>
+    <a href="{% url 'contacts' %}" class="btn btn-outline-dark">Контакти</a>
+{#    <a href="#" class="btn btn-outline-dark">Про нас</a>#}
+{% endblock %}

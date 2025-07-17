@@ -34,7 +34,7 @@ if os.environ.get("GITHUB_WORKFLOW"):
     }
 else:
     DATABASES = {
-        "default_sqlite": {
+        "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",  # NOQA:F405
         },
@@ -46,7 +46,7 @@ else:
             "HOST": "localhost",
             "PORT": 5433,
         },
-        "default": {
+        "default_postgres": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": os.environ.get("POSTGRES_DB"),
             "USER": os.environ.get("POSTGRES_USER"),
@@ -65,3 +65,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")  # NOQA:F405
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+EMAIL_FAIL_SILENTLY = False
