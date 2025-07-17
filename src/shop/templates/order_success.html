@@ -1,0 +1,9 @@
+{% extends "home.html" %}
+{% block content %}
+    <div class="container text-center my-5">
+        <h2>Дякуємо за замовлення!</h2>
+        <p>Ваш номер замовлення: <strong>{{ order.id }}</strong></p>
+        <p>Ми зв’яжемось з вами найближчим часом.</p>
+        <a href="{% url 'shop:home' %}" class="btn btn-success mt-3">Повернутись на головну</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+{% load dict_extras_trainings %}
+
+<section class="container py-5">
+    <h2 class="text-center mb-4">Розклад тренувань</h2>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-bordered align-middle text-center bg-white">
+            <thead class="table-primary text-uppercase">
+                <tr>
+                    <th scope="col">Група</th>
+                    {% for day in day_keys %}
+                        <th scope="col">{{ day }}</th>
+                    {% endfor %}
+{#                    <th scope="col">Додати час</th>#}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in calendar_data %}
+                    <tr>
+                        <td class="fw-bold">{{ row.name }}</td>
+                        {% for day in days %}
+                            <td>
+                                {% if row.schedule|get_item:day %}
+                                    <span class="badge bg-success">{{ row.schedule|get_item:day }}</span>
+                                {% else %}
+                                    <span class="text-muted">&mdash;</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+{#                        <td>#}
+{#                            <a href="#" class="btn btn-sm btn-outline-primary">#}
+{#                                <i class="bi bi-plus-circle"></i> Додати#}
+{#                            </a>#}
+{#                        </td>#}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+
+{#{% extends "index.html" %}#}
+{##}
+{#{% block content %}#}
+{##}
+{#    {% load dict_extras_trainings %}#}
+{##}
+{#    <table class="table table-bordered text-center">#}
+{#        <thead class="table-light">#}
+{#        <tr>#}
+{#            <th>Group</th>#}
+{#            {% for day in day_keys %}#}
+{#                <th>{{ day }}</th>#}
+{#            {% endfor %}#}
+{#                <th>{{ "Add time" }}</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{##}
+{#        {% for row in calendar_data %}#}
+{#            <tr>#}
+{#                <td><strong>{{ row.name }}</strong></td>#}
+{#                {% for day in days %}#}
+{#                    <td>{{ row.schedule|get_item:day }}</td>#}
+{#                {% endfor %}#}
+{#                <td>{{ "text" }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{##}
+{#        </tbody>#}
+{#    </table>#}
+{##}
+{#{% endblock %}#}

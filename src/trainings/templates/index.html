@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bondini Dance | Home{% endblock %}
+
+{% block header %}
+    {% include "partials/trainings_header.html" %}
+{% endblock %}
+
+{% block content %}
+    <section class="hero video-section">
+        <div class="video-wrapper">
+            <video autoplay muted loop playsinline>
+                <source src="{% static 'common/videos/bd_background_video.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="hero-content">
+            <div class="logo-wrapper">
+                <img src="{% static 'common/images/bd_logo.png' %}" alt="Bondini Team Logo" class="hero-image">
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Timeline -->
+    <section class="story-section">
+        <div class="story-container">
+            <button class="arrow left" onclick="prevSlide()">&#x276E;</button>
+
+            <div class="story-text" id="storyText">
+                <div id="storyEmoji" class="emoji-wrapper">😺</div>
+                <h2 id="storyTitle">Our Story</h2>
+                <p id="storyDescription">
+                    Since 2008, we've expanded what we do to protect you...
+                </p>
+            </div>
+
+            <button class="arrow right" onclick="nextSlide()">&#x276F;</button>
+        </div>
+
+        <div class="timeline-scroll-container" id="timelineScroll">
+            <div class="timeline-line"></div>
+            <div class="timeline-circles" id="timelineCircles"></div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section class="trainers-section">
+    <h2 class="section-title">Наші Тренери</h2>
+    <div class="trainers-list">
+
+        <div class="trainer left">
+            <div class="trainer-image-wrapper">
+                <img src="{% static 'common/images/black_cat.png' %}" alt="Trainer 1">
+            </div>
+            <div class="trainer-info">
+                <h3>Еней</h3>
+                <p>Парубок моторний і хлопець хоч куди козак.</p>
+                <p>10 років досвіду.</p>
+                <p>Виглядає лячно, але... дійсно лячний.</p>
+            </div>
+        </div>
+
+        <div class="trainer right">
+            <div class="trainer-info">
+                <h3>Валентина</h3>
+                <p>Випадково опинилась.</p>
+                <p>Можливо чиясь кума.</p>
+                <p>І справді, хто її сюди запросив?</p>
+            </div>
+            <div class="trainer-image-wrapper">
+                <img src="{% static 'common/images/sad_cat.png' %}" alt="Trainer 2">
+            </div>
+        </div>
+
+        <!-- Repeat for more trainers -->
+    </div>
+</section>
+
+
+
+
+
+
+
+
+    <section class="faq-section">
+  <div class="faq-wrapper">
+
+    <div class="faq-title">
+      <h2>Залишились запитання?</h2>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">Що таке Bondini Dance?</button>
+        <div class="faq-answer">
+          <p>Bondini Dance — це спільнота танцюристів, викладачів та артистів, яка пропонує тренування, заходи та багато іншого.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Чи потрібен попередній досвід, щоб приєднатися?</button>
+        <div class="faq-answer">
+          <p>Ні! Ми радо приймаємо танцюристів будь-якого рівня. Незалежно від того, ви початківець чи досвідчений — у нас знайдеться група саме для вас.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Як зареєструватися на заняття?</button>
+        <div class="faq-answer">
+          <p>Ви можете зареєструватися безпосередньо на нашому сайті через розклад тренувань або звернутися до нашої команди за допомогою.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+    <script>
+        const STATIC_URL = "{% static '' %}";
+    </script>
+
+
+    <script>
+        const slides = [
+            {
+                year: 2017,
+                title: "Vim Prophet",
+                description: "I've been using Vim for a long time now, mainly because I can't figure out how to exit.",
+                emoji: "😼"
+                {#image: STATIC_URL + "common/images/sad_cat.png"#}
+                {#    😎💃🦆🌵⭐️🍆🍻🎮🏝🇺🇦#}
+            },
+            {
+                year: 2018,
+                title: "Bug Whisperer",
+                description: "Unix is user friendly. It's just very particular about who its friends are.",
+                emoji: "🦆"
+            },
+            {
+                year: 2019,
+                title: "Dev Ninja",
+                description: "Java: Write once, run away.",
+                emoji: "🌵"
+            },
+            {
+                year: 2020,
+                title: "Pixel Crawler",
+                description: "There are only 10 types of people in this world: those who understand binary, and those who don't.",
+                emoji: "🍆"
+            },
+            {
+                year: 2021,
+                title: "Lag Goblin",
+                description: "You are making progress if each mistake is a new one.",
+                emoji: "🍻"
+            },
+            {
+                year: 2022,
+                title: "Loop Wizard",
+                description: "Schrodinger's attitude to web development: If I don't look at it in Internet Explorer then there's a chance it looks fine.",
+                emoji: "🎮"
+            },
+            {
+                year: 2023,
+                title: "Respawn Burrito",
+                description: "My favourite computer based band is the Black IPs.",
+                emoji: "🏝"
+            },
+            {
+                year: 2024,
+                title: "Spoiler Goblin",
+                description: "Learning JavaScript is like looking both ways before you cross the street, and then getting hit by an airplane.",
+                emoji: "⭐"
+            },
+            {
+                year: 2025,
+                title: "Combo Gremlin",
+                description: "Child: Dad, why does the sun rise in the east and set in the west? Dad: Son, it's working, don't touch it.",
+                emoji: "😎"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        const storyTitle = document.getElementById("storyTitle");
+        const storyDescription = document.getElementById("storyDescription");
+        const timelineCircles = document.getElementById("timelineCircles");
+
+        function renderSlide(index) {
+            const {title, description, image} = slides[index];
+
+            storyTitle.textContent = title;
+            storyDescription.textContent = description;
+
+            const storyEmoji = document.getElementById("storyEmoji");
+            storyEmoji.textContent = slides[index].emoji;
+
+            const allCircles = document.querySelectorAll(".circle");
+            allCircles.forEach((circle, i) => {
+                circle.classList.toggle("active", i === index);
+            });
+
+            const scrollContainer = document.getElementById("timelineScroll");
+            const wrapper = allCircles[index].parentElement;
+            const scrollTo = wrapper.offsetLeft - scrollContainer.offsetWidth / 2 + wrapper.offsetWidth / 2;
+
+            scrollContainer.scrollTo({
+                left: scrollTo,
+                behavior: "smooth"
+            });
+        }
+
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            renderSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            renderSlide(currentIndex);
+        }
+
+        function initCircles() {
+            slides.forEach((slide, i) => {
+                const wrapper = document.createElement("div");
+                wrapper.className = "circle-wrapper";
+
+                const circle = document.createElement("div");
+                circle.className = "circle";
+                if (i === currentIndex) circle.classList.add("active");
+                circle.addEventListener("click", () => {
+                    currentIndex = i;
+                    renderSlide(i);
+                });
+
+                const year = document.createElement("div");
+                year.className = "year";
+                year.textContent = slide.year;
+
+                wrapper.appendChild(circle);
+                wrapper.appendChild(year);
+                timelineCircles.appendChild(wrapper);
+            });
+
+            renderSlide(currentIndex);
+        }
+
+        window.addEventListener("DOMContentLoaded", initCircles);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const questions = document.querySelectorAll(".faq-question");
+
+            questions.forEach((question) => {
+                question.addEventListener("click", () => {
+                    const isActive = question.classList.contains("active");
+
+                    // Close all
+                    questions.forEach(q => {
+                        q.classList.remove("active");
+                        q.nextElementSibling.style.maxHeight = null;
+                    });
+
+                    // Open current if it wasn't already open
+                    if (!isActive) {
+                        question.classList.add("active");
+                        const answer = question.nextElementSibling;
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

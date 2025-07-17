@@ -1,0 +1,5 @@
+#!/bin/bash
+
+celery -A config worker -l ${CELERY_LOG_LEVEL} -c ${CELERY_WORKERS_COUNT} &
+
+celery -A config flower --broker=redis://redis

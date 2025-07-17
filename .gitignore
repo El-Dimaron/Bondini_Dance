@@ -25,6 +25,12 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+STATIC_ROOT
+src/static/admin/
+src/static/debug_toolbar/
+src/static/drf-yasg/
+src/static/rest_framework/
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -129,6 +135,7 @@ celerybeat.pid
 
 # Environments
 .env
+.env_old
 .venv
 env/
 venv/
@@ -172,3 +179,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+.DS_Store
+notes.txt

@@ -1,0 +1,256 @@
+{% extends "home.html" %}
+{% load static %}
+{% load favorite_tags %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+
+    <main class="page-wrapper">
+
+        <!-- Image Gallery -->
+        <section class="gallery text-center">
+            <div class="position-relative mb-3 d-inline-block">
+                <!-- Left Arrow -->
+                <button class="gallery-arrow left-arrow btn btn-light position-absolute top-50 start-0 translate-middle-y"
+                        onclick="showPrevImage()" style="z-index: 2;">&#10094;
+                </button>
+
+                <!-- Main Image -->
+                <img id="hero" class="hero-img img-fluid rounded"
+                     src="{{ item.image.url }}" alt="Product image"
+                     style="max-height: 500px; object-fit: contain;">
+
+                <!-- Right Arrow -->
+                <button class="gallery-arrow right-arrow btn btn-light position-absolute top-50 end-0 translate-middle-y"
+                        onclick="showNextImage()" style="z-index: 2;">&#10095;
+                </button>
+
+                <div class="product-badges">
+                    {% if item.is_on_sale %}
+                        <div class="product-badge discount">
+                            -{{ item.discount }} грн
+                        </div>
+                    {% endif %}
+
+                    <!-- New collection badge -->
+                    {% if item.new_collection %}
+                        <div class="product-badge new">
+                            NEW
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Thumbnails -->
+            <div class="d-flex justify-content-center flex-wrap gap-2 mt-2">
+                <!-- Main image as first thumb -->
+                <img src="{{ item.image.url }}" class="thumb-img border rounded p-1 active-thumb"
+                     style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;" onclick="setHeroImage(0)">
+
+                {% for img in item.extra_images.all %}
+                    <img src="{{ img.image.url }}" class="thumb-img border rounded p-1"
+                         style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
+                         onclick="setHeroImage({{ forloop.counter }})">
+                {% endfor %}
+            </div>
+        </section>
+
+
+        <!-- Product Details -->
+        <section class="details">
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="brand mb-0">Bondini</p>
+                    <small class="text-muted">Код: {{ item.part_number }}</small>
+                </div>
+                <h1 class="title h4">{{ item.name }}</h1>
+
+                <p class="available mb-2">
+                    {% if item.available == "in_stock" %}
+                        <span class="text-success fw-bold">{{ item.get_available_display }}</span>
+                    {% else %}
+                        <span class="text-secondary">{{ item.get_available_display }}</span>
+                    {% endif %}
+                </p>
+
+                {% if item.is_on_sale %}
+                    <div class="price">
+                        <span class="text-decoration-line-through text-muted">{{ item.price }} грн</span>
+                        <span class="text-danger fw-bold ms-2">{{ item.discounted_price }} грн</span>
+                    </div>
+                {% else %}
+                    <div class="price fw-bold">{{ item.price }} грн</div>
+                {% endif %}
+            </div>
+
+            <!-- Colors -->
+            {% if item.colors.all %}
+                <div>
+                    <h4 style="margin-bottom: .5rem; font-weight:600;">
+                        Колір:
+                        <span id="selected-color" class="text-muted">—</span>
+                    </h4>
+                    <div class="color-options d-flex gap-2">
+                        {% for color in item.colors.all %}
+                            <button class="size-btn color-select"
+                                    data-color="{{ color.name }}">{{ color.name }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Sizes -->
+            {% if item.sizes.all %}
+                <div>
+                    <h4 style="margin-bottom: .5rem; font-weight:600;">
+                        Розмір:
+                        <span id="selected-size" class="text-muted">—</span>
+                    </h4>
+                    <div class="size-options">
+                        {% for size in item.sizes.all %}
+                            <button class="size-btn size-select" data-size="{{ size.size }}">{{ size.size }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+
+            <div class="d-flex align-items-center gap-3 mt-3">
+                <div class="flex-grow-1">
+                    <form method="post" action="{% url 'shop:add_to_basket' item.id %}" id="add-to-cart-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_color" id="input-color">
+                        <input type="hidden" name="selected_size" id="input-size">
+                        <button type="submit" class="add-cart w-100">Додати до кошику</button>
+                    </form>
+
+                </div>
+
+                <form method="post" action="{% url 'shop:toggle_favorite' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="heart-btn {% if item|is_favorited_by:request.user %}favorited{% endif %}"
+                            title="Додати в обране">
+                        {% if item|is_favorited_by:request.user %}
+                            ❤️
+                        {% else %}
+                            🤍
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+
+
+            <div class="description mt-3">
+                {{ item.description }}
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Elements
+            const hero = document.getElementById('hero');
+            const thumbnails = document.querySelectorAll('.thumb-img');
+            const sizeBtns = document.querySelectorAll('.size-select');
+            const selectedSize = document.getElementById('selected-size');
+            const sizeInput = document.getElementById('input-size');
+            const colorBtns = document.querySelectorAll('.color-select');
+            const selectedColor = document.getElementById('selected-color');
+            const colorInput = document.getElementById('input-color');
+
+            // Image gallery logic
+            const imageUrls = [
+                "{{ item.image.url }}",
+                {% for img in item.extra_images.all %}
+                    "{{ img.image.url }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+            let currentIndex = 0;
+
+            function updateGallery() {
+                hero.src = imageUrls[currentIndex];
+                thumbnails.forEach((thumb, index) => {
+                    thumb.classList.toggle('active-thumb', index === currentIndex);
+                });
+            }
+
+            window.setHeroImage = function (index) {
+                currentIndex = index;
+                updateGallery();
+            };
+
+            window.showNextImage = function () {
+                currentIndex = (currentIndex + 1) % imageUrls.length;
+                updateGallery();
+            };
+
+            window.showPrevImage = function () {
+                currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+                updateGallery();
+            };
+
+            // Initialize gallery
+            updateGallery();
+
+            // Preselect first size
+            if (sizeBtns.length > 0) {
+                sizeBtns[0].classList.add('active');
+                selectedSize.textContent = sizeBtns[0].dataset.size;
+                sizeInput.value = sizeBtns[0].dataset.size;
+            }
+
+            // Preselect first color
+            if (colorBtns.length > 0) {
+                colorBtns[0].classList.add('active');
+                selectedColor.textContent = colorBtns[0].dataset.color;
+                colorInput.value = colorBtns[0].dataset.color;
+            }
+
+            // Handle size button clicks
+            sizeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sizeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedSize.textContent = btn.dataset.size;
+                    sizeInput.value = btn.dataset.size;
+                });
+            });
+
+            // Handle color button clicks
+            colorBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    colorBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedColor.textContent = btn.dataset.color;
+                    colorInput.value = btn.dataset.color;
+                });
+            });
+        });
+    </script>
+
+
+
+    <style>
+        .active-thumb {
+            border: 2px solid #000;
+        }
+
+        .gallery-arrow {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 1.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            cursor: pointer;
+        }
+    </style>
+
+
+
+
+
+
+
+
+{% endblock %}

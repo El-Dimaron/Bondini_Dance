@@ -1,0 +1,123 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <!-- Search Bar -->
+    <div class="container my-4">
+        <form method="get" class="d-flex justify-content-center">
+            <div class="input-group shadow-sm" style="max-width: 600px; width: 100%;">
+{#                <input type="text" class="form-control" name="search" {% if search_query %} placeholder="{{ search_query }}" {% else %} placeholder="Пошук групи..." {% endif %}#}
+                <input type="text" class="form-control" name="search" value="{{ search_query|default:'' }}" placeholder="Пошук групи..."
+                       aria-label="Search">
+                <button type="submit" class="btn btn-outline-secondary">Шукати</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Groups Table -->
+    <div class="container my-5">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Список груп</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover mb-0 align-middle text-center">
+                        <thead class="table-light text-dark">
+                        <tr>
+                            {#                            <th>№</th>#}
+                            <th>Назва</th>
+                            <th>Тип</th>
+                            <th>Опис</th>
+                            <th>Ціна</th>
+                            <th>Тренер</th>
+                            {#                            <th>Створити</th>#}
+                            {% if user.is_superuser or user.is_staff %}
+                                <th>Учасники</th>
+                                <th>Змінити</th>
+                                <th>Видалити</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for group in groups %}
+                            <tr>
+                                {#                                <td>{{ forloop.counter }}</td>#}
+                                <td>{{ group.name }}</td>
+                                <td>{{ group.get_plan_name_display }}</td>
+                                <td class="text-start"
+                                    style="max-width: 250px; word-break: break-word;">{{ group.description }}</td>
+                                <td>{{ group.price }}</td>
+                                <td>{{ group.trainer }}</td>
+                                {#                                <td>#}
+                                {#                                    <a class="btn btn-success btn-sm" href="{% url 'groups:create_group' %}">➕</a>#}
+                                {#                                </td>#}
+                                {% if user.is_superuser or user.is_staff %}
+                                    <td class="text-start">
+                                        {% for user in group.users.all %}
+                                            {% if user.first_name or user.last_name %}
+                                                {{ user.first_name }}
+                                                {{ user.last_name }}{% if not forloop.last %}<br>{% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm"
+                                           href="{% url 'groups:update_group' group.id %}">✏️</a>
+                                    </td>
+                                    <td>
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"
+                                                data-url="{% url 'groups:delete_group' group.id %}"
+                                                data-name="{{ group.name }}">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Підтвердити видалення</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-danger fw-bold">
+                    Ви впевнені, що хочете видалити групу <strong id="groupNamePlaceholder"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <a id="confirmDeleteBtn" class="btn btn-danger" href="#">Так, видалити</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal JS -->
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        const namePlaceholder = document.getElementById('groupNamePlaceholder');
+
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const url = button.getAttribute('data-url');
+            const name = button.getAttribute('data-name');
+
+            confirmBtn.href = url;
+            namePlaceholder.textContent = name;
+        });
+    </script>
+
+{% endblock content %}
