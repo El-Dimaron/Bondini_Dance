@@ -1,0 +1,23 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Нова колекція{% endblock %}
+
+{% block content %}
+
+    <section class="pt-4 pb-5">
+        <div class="container">
+            <h2 class="mb-4">Нові колекції</h2>
+            {% if items %}
+                {% include "partials/product_list.html" %}
+            {% else %}
+                <div class="text-center my-5">
+                    <h4 class="mb-3">На жаль, зараз немає товарів з нової колекції</h4>
+                    <img src="{% static 'shop/images/sad_cat.png' %}" alt="" class="hero-image">
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+
+{% endblock %}

@@ -16,67 +16,10 @@ services:
       - ./commands:/bd_server/commands
       - ./src/static:/bd_server/src/static
       - ./src/media:/bd_server/src/media
-    depends_on:
-      postgres:
-        condition: service_healthy
-#      mongo:
+#    depends_on:
+#      postgres:
 #        condition: service_healthy
 
-  postgres:
-    image: postgres:17.5
-    ports:
-      - 5432:5432
-    env_file:
-      - .env
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin_container
-    restart: on-failure
-    env_file:
-      - .env
-    ports:
-      - 5001:80
-    volumes:
-      - pg_admin:/var/lib/pgadmin
-    depends_on:
-      - postgres
-#
-#  mongo:
-#    image: mongo:7.0
-#    container_name: mongo_container
-#    ports:
-#      - 27017:27017
-#    env_file:
-#      - .env
-#    volumes:
-#      - mongo_data:/data/db
-#    restart: on-failure
-#    healthcheck:
-#      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-#
-#  mongoadmin:
-#    image: mongo-express
-#    restart: on-failure
-#    container_name: mongo_admin_container
-#    ports:
-#      - 8081:8081
-#    env_file:
-#      - .env
-#    links:
-#      - mongo
-#    depends_on:
-#      - mongo
 
   nginx:
     image: nginx:1.19
@@ -92,85 +35,96 @@ services:
     depends_on:
       - backend
 
-  redis:
-    image: redis
-    ports:
-      - 6379:6379
-    env_file:
-      - .env
-    restart: on-failure
-    depends_on:
-      - backend
+#  postgres:
+#    image: postgres:17.5
+#    ports:
+#      - 5432:5432
+#    env_file:
+#      - .env
+#    volumes:
+#      - pg_data:/var/lib/postgresql/data
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+#      interval: 5s
+#      timeout: 3s
+#      retries: 5
+#
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin_container
+#    restart: on-failure
+#    env_file:
+#      - .env
+#    ports:
+#      - 5001:80
+#    volumes:
+#      - pg_admin:/var/lib/pgadmin
+#    depends_on:
+#      - postgres
 
-  redisinsight:
-    image: redis/redisinsight:latest
-    container_name: redisinsight_container
-    ports:
-      - 5540:5540
-    restart: on-failure
-    volumes:
-      - redisinsight_data:/data
-    depends_on:
-      - redis
 
-  celery:
-    build: ./
-    container_name: celery-container
-    command:
-#      - ./commands/start_celery.sh
-      - ./commands/start_celery_and_flower.sh
-    restart: on-failure
-    volumes:
-      - ./src:/bd_server
-      - ./commands:/bd_server/commands
-    env_file:
-      - .env
-    ports:
-      - 5556:5555
-    environment:
-      DOCKER: "1"
-    depends_on:
-      - backend
-      - redis
 
-#  flower:
+
+#  redis:
+#    image: redis
+#    ports:
+#      - 6379:6379
+#    env_file:
+#      - .env
+#    restart: on-failure
+#    depends_on:
+#      - backend
+#
+#  redisinsight:
+#    image: redis/redisinsight:latest
+#    container_name: redisinsight_container
+#    ports:
+#      - 5540:5540
+#    restart: on-failure
+#    volumes:
+#      - redisinsight_data:/data
+#    depends_on:
+#      - redis
+#
+#  celery:
 #    build: ./
-#    container_name: flower-container
+#    container_name: celery-container
+#    command:
+#      - ./commands/start_celery_and_flower.sh
+#    restart: on-failure
 #    volumes:
 #      - ./src:/bd_server
+#      - ./commands:/bd_server/commands
+#    env_file:
+#      - .env
+#    ports:
+#      - 5556:5555
+#    environment:
+#      DOCKER: "1"
+#    depends_on:
+#      - backend
+#      - redis
+#
+#
+#  celerybeat:
+#    build: ./
+#    container_name: celerybeat-container
+#    command:
+#      - ./commands/start_celerybeat.sh
+#    restart: on-failure
+#    volumes:
+#      - ./src:/bd_server
+#      - ./commands:/bd_server/commands
 #    env_file:
 #      - .env
 #    environment:
 #      DOCKER: "1"
-#    command: celery -A config flower --broker=redis://redis
-#    ports:
-#      - 5556:5555
 #    depends_on:
-#      - celery
-
-  celerybeat:
-    build: ./
-    container_name: celerybeat-container
-    command:
-      - ./commands/start_celerybeat.sh
-    restart: on-failure
-    volumes:
-      - ./src:/bd_server
-      - ./commands:/bd_server/commands
-    env_file:
-      - .env
-    environment:
-      DOCKER: "1"
-    depends_on:
-      - backend
-      - redis
+#      - backend
+#      - redis
 
 
-
-
-
-volumes:
-  pg_data: { }
-  pg_admin: { }
-  redisinsight_data: {}
-#  mongo_data: { }
+#volumes:
+#  pg_data: { }
+#  pg_admin: { }
+#  redisinsight_data: { }

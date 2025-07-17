@@ -1,0 +1,85 @@
+{% load static %}
+{% load favorite_tags %}
+
+
+{#<div class="row g-4">#}
+<div class="row gx-4 gy-0">
+    {% for item in items %}
+        {#        <div class="col-md-4">#}
+        <div class="col-md-4 mb-4">
+            <div class="card product-card h-100 shadow-sm border-0 {% if item.available == "not_available" %}unavailable{% endif %}">
+                <a href="{% url "shop:product_details" item.pk %}">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                </a>
+
+                <div class="product-badges">
+                    {% if item.is_on_sale %}
+                        <div class="product-badge discount">
+                            -{{ item.discount }} грн
+                        </div>
+                    {% endif %}
+
+                    <!-- New collection badge -->
+                    {% if item.new_collection %}
+                        <div class="product-badge new">
+                            NEW
+                        </div>
+                    {% endif %}
+                </div>
+
+
+                <div class="card-body d-flex flex-column justify-content-between text-center">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="text-muted">
+                        {% if item.is_on_sale %}
+                            <span class="text-decoration-line-through">{{ item.price }} грн</span>
+                            <span class="text-danger fw-bold ms-2">{{ item.discounted_price }} грн</span>
+                        {% else %}
+                            {{ item.price }} грн
+                        {% endif %}
+                    </p>
+                    <p class="available mb-2">
+                        {% if item.available == "in_stock" %}
+                            <span class="text-success fw-bold">{{ item.get_available_display }}</span>
+                        {% else %}
+                            <span class="text-secondary">{{ item.get_available_display }}</span>
+                        {% endif %}
+                    </p>
+
+
+                    <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                        <form method="post" action="{% url 'shop:add_to_basket' item.id %}"
+                              class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-dark btn-sm">Додати в кошик
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'shop:toggle_favorite' item.id %}"
+                              class="m-0">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="favorite-btn {% if item|is_favorited_by:request.user %}favorited{% endif %}"
+                                    title="Додати в обране">
+                                {% if item|is_favorited_by:request.user %}❤️{% else %}
+                                    🤍{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="text-center my-4"><h4 class="mb-3">На жаль, товарів не знайдено</h4>
+        <img src="{% static 'shop/images/sad_cat.png' %}" alt="" class="hero-image">
+    {% endfor %}
+    </div>
+
+    {% include 'partials/pagination.html' %}
+</div>
+
+{#<style>#}
+{#.product-card.unavailable {#}
+{#    opacity: 0.5;#}
+{#    filter: grayscale(80%);#}
+{#}#}
+{#</style>#}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Підтвердження реєстрації</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 30px;
+            color: #212529;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 6px;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #212529;
+            color: white;
+            padding: 12px 24px;
+            margin-top: 20px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #343a40;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Вітаємо в Bondini Dance!</h2>
+    <p>Дякуємо за реєстрацію. Щоб активувати ваш обліковий запис, натисніть кнопку нижче:</p>
+
+    <a href="{{ activation_link }}"
+       style="display: inline-block; padding: 12px 24px; background-color: #343a40; color: #ffffff;
+          text-decoration: none; border-radius: 5px; font-weight: bold;">
+        Підтвердити Email
+    </a>
+
+    <p>Якщо ви не реєструвались на нашому сайті, просто проігноруйте цей лист.</p>
+
+    <div class="footer">
+        © {{ year }} Bondini Dance. Всі права захищені.
+    </div>
+</div>
+</body>
+</html>

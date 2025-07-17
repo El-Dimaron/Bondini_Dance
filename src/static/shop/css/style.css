@@ -1,10 +1,12 @@
 * {
     box-sizing: border-box;
 }
+
 body, h1, h2, h3, h4, h5, h6, p, ul {
     margin: 0;
     padding: 0;
 }
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: #fafafa;
@@ -166,9 +168,9 @@ a {
 
 /* ───── Specific tweaks for the “Улюблене” button ───── */
 .favourite {
-    background: #fff;          /* white background */
-    color: #000;               /* black text */
-    border: 1px solid #ccc;    /* thin black outline (optional) */
+    background: #fff; /* white background */
+    color: #000; /* black text */
+    border: 1px solid #ccc; /* thin black outline (optional) */
     padding: 1rem 0;
     border-radius: 2rem;
     font-size: 1rem;
@@ -186,5 +188,11 @@ a {
 
 .favourite:hover {
     border: 1px solid #000;
+}
+
+.sticky-sidebar {
+    position: sticky;
+    top: 80px; /* adjust if you have a navbar */
+    z-index: 100;
 }
 

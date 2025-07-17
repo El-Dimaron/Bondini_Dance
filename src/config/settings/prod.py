@@ -6,7 +6,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["ec2-3-86-251-180.compute-1.amazonaws.com", "localhost", "*"]
 
 IS_DOCKER = os.environ.get("DOCKER", "0") == "1"
 
@@ -23,7 +23,7 @@ if os.environ.get("GITHUB_WORKFLOW"):
     }
 else:
     DATABASES = {
-        "default_sqlite": {
+        "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",  # NOQA:F405
         },
@@ -35,7 +35,7 @@ else:
             "HOST": "localhost",
             "PORT": 5433,
         },
-        "default": {
+        "default_postgres": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": os.environ.get("POSTGRES_DB"),
             "USER": os.environ.get("POSTGRES_USER"),

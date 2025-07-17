@@ -1,0 +1,84 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Нова колекція{% endblock %}
+
+{% block content %}
+
+    <section class="pt-4 pb-5">
+        <div class="container">
+            <h2 class="mb-4">Улюблені</h2>
+            {% if items %}
+                {% include "partials/product_list.html" %}
+            {% else %}
+                <div class="text-center my-5">
+                    <h4 class="mb-3">У вас ще немає улюблених товарів</h4>
+                    <img src="{% static 'shop/images/sad_cat.png' %}" alt="" class="hero-image">
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+
+{% endblock %}
+
+
+{#{% extends "home.html" %}#}
+{#{% load static %}#}
+{#{% load favorite_tags %}#}
+{#{% include "partials/sidebar.html" %}#}
+{##}
+{#    {% block content %}#}
+{#        <div class="container py-4">#}
+{#            <div class="row">#}
+{##}
+{#                <!-- Sidebar -->#}
+{#                {% include "partials/sidebar.html" %}#}
+{##}
+{#                <!-- Main Content -->#}
+{#                <div class="col-md-9">#}
+{#                    <section>#}
+{#                        <h2 class="text-center mb-4">Уподобані товари</h2>#}
+{##}
+{#                        <div class="row g-4">#}
+{#                            {% for item in items %}#}
+{#                                <div class="col-md-4">#}
+{#                                    <div class="card product-card h-100 shadow-sm border-0">#}
+{#                                        <a href="{% url "shop:product_details" item.pk %}">#}
+{#                                            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">#}
+{#                                        </a>#}
+{##}
+{#                                        <div class="card-body d-flex flex-column justify-content-between text-center">#}
+{#                                            <h5 class="card-title">{{ item.name }}</h5>#}
+{#                                            <p class="text-muted">{{ item.price }}</p>#}
+{##}
+{#                                            <div class="d-flex justify-content-center align-items-center gap-2 mt-2">#}
+{#                                                <a href="#" class="btn btn-dark btn-sm">Купити</a>#}
+{##}
+{#                                                <form method="post" action="{% url 'shop:toggle_favorite' item.id %}"#}
+{#                                                      class="m-0">#}
+{#                                                    {% csrf_token %}#}
+{#                                                    <button type="submit"#}
+{#                                                            class="favorite-btn {% if item|is_favorited_by:request.user %}favorited{% endif %}"#}
+{#                                                            title="Додати в обране">#}
+{#                                                        {% if item|is_favorited_by:request.user %}#}
+{#                                                            ❤️#}
+{#                                                        {% else %}#}
+{#                                                            🤍#}
+{#                                                        {% endif %}#}
+{#                                                    </button>#}
+{#                                                </form>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            {% empty %}#}
+{#                                <p>У вас ще немає уподобаних товарів.</p>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </section>#}
+{#                </div>#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#    {% endblock %}#}

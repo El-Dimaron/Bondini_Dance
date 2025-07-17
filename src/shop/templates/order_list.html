@@ -1,0 +1,115 @@
+{% extends "home.html" %}
+{% block title %}Замовлення{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+    {% if user.is_staff or user.is_superuser %}
+        <h2 class="mb-4">Всі замовлення</h2>
+    {% else %}
+        <h2 class="mb-4">Мої замовлення</h2>
+    {% endif %}
+    <p><span>Показано {{ page_obj.start_index }}–{{ page_obj.end_index }} з {{ page_obj.paginator.count }} замовлень
+    </span></p>
+
+
+    {% if orders %}
+        <div class="list-group">
+        {% for order in orders %}
+            <div class="card mb-3">
+                <!-- Collapsed Header -->
+                <button class="card-header w-100 text-start btn btn-toggle-order"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#orderDetails{{ order.id }}"
+                        aria-expanded="false"
+                        aria-controls="orderDetails{{ order.id }}">
+
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <!-- Left: Order info + status -->
+                        <div class="d-flex flex-column">
+                            <strong>Замовлення №{{ order.id }}</strong>
+                            <span class="text-muted">{{ order.submitted_at|date:"d.m.Y" }}</span>
+
+                            {% if order.status == 'created' %}
+                                <span class="badge bg-secondary mt-2">Створено</span>
+                            {% elif order.status == 'in_progress' %}
+                                <span class="badge bg-warning text-dark mt-2">Опрацьовується</span>
+                            {% elif order.status == 'completed' %}
+                                <span class="badge bg-success mt-2">Виконано</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge bg-danger mt-2">Скасовано</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Right: Chevron only -->
+                        <div>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                    </div>
+                </button>
+
+
+                <!-- Expanded -->
+                <div class="collapse" id="orderDetails{{ order.id }}">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Left: Personal info -->
+                            <div class="col-md-6">
+                                <p><strong>Користувач:</strong> {{ order.user.username }}</p>
+                                <p><strong>Ім’я:</strong> {{ order.full_name }}</p>
+                                <p><strong>Телефон:</strong> {{ order.phone_number }}</p>
+                                <p><strong>Email:</strong> {{ order.email|default:"—" }}</p>
+                                <p><strong>Примітки:</strong> {{ order.notes|default:"—" }}</p>
+                                <p><strong>Сума:</strong> {{ order.total_price }} грн</p>
+                            </div>
+
+                            <!-- Right: Items -->
+                            <div class="col-md-6">
+                                <h6>Товари:</h6>
+                                <ul class="list-unstyled">
+                                    {% for bi in order.basket.basket_items.all %}
+                                        <li class="d-flex align-items-center gap-2 mb-2">
+                                            <a href="{% url 'shop:product_details' bi.item.pk %}">
+                                                <img src="{{ bi.item.image.url }}"
+                                                     alt="{{ bi.item.name }}"
+                                                     style="width: 60px;" class="rounded">
+                                            </a>
+
+                                            <div class="mb-2 d-flex align-items-center gap-2 flex-wrap">
+                                                <a href="{% url 'shop:product_details' bi.item.pk %}"
+                                                   class="text-dark text-decoration-none fw-semibold">
+                                                    {{ bi.item.name }}
+
+                                                    {% if bi.selected_color %}
+                                                        <span class="ms-auto text-nowrap">| {{ bi.selected_color }}</span>
+                                                    {% endif %}
+
+                                                    {% if bi.selected_size %}
+                                                        <span class="ms-auto text-nowrap">| {{ bi.selected_size }}</span>
+                                                    {% endif %}
+                                                    <span class="ms-auto text-nowrap">| {{ bi.unit_price }} грн x {{ bi.quantity }}</span>
+                                                </a>
+
+
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        {% if is_paginated %}
+            <div class="d-flex justify-content-center mt-4 mb-5">
+                {% include 'partials/pagination.html' %}
+            </div>
+        {% endif %}
+    {% else %}
+        <p>У вас ще немає замовлень.</p>
+    {% endif %}
+</div>
+{% endblock %}
