@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group, Permission
 
 from accounts.models import User
 from shop.models import (Basket, BasketItem, Category, Favorite, Item,
@@ -7,48 +6,7 @@ from shop.models import (Basket, BasketItem, Category, Favorite, Item,
 from trainings.models import Group as TrainingGroup
 from trainings.models import Schedule
 
-# admin.site.register([User, ItemImage, ItemColor, ItemSize, Favorite, Category, Tag, Basket, Order])
 admin.site.register([User, Favorite, Category, Tag, Basket, Order])
-
-admin_group, _ = Group.objects.get_or_create(name="Admin")
-coach_group, _ = Group.objects.get_or_create(name="Coach")
-dancer_group, _ = Group.objects.get_or_create(name="Dancer")
-
-admin_permissions = Permission.objects.all()
-coach_permissions = Permission.objects.filter(
-    codename__in=[
-        "view_item",
-        "change_item",
-        "view_user",
-        "add_category",
-        "change_category",
-        "delete_category",
-        "view_category",
-        "add_favorite",
-        "change_favorite",
-        "delete_favorite",
-        "view_favorite",
-        "add_tag",
-        "change_tag",
-        "delete_tag",
-        "view_tag",
-        "view_group",
-        "change_group",
-        "add_schedule",
-        "change_schedule",
-        "delete_schedule",
-        "view_schedule",
-    ]
-)
-dancer_permissions = Permission.objects.filter(
-    codename__in=[
-        "view_item",
-    ]
-)
-
-admin_group.permissions.set(admin_permissions)
-coach_group.permissions.set(coach_permissions)
-dancer_group.permissions.set(dancer_permissions)
 
 
 class ItemImageInline(admin.TabularInline):
@@ -98,7 +56,6 @@ class GroupAdmin(admin.ModelAdmin):
     list_display = ("name", "plan_name_display", "price", "trainer", "user_count", "schedule_count")
     list_filter = ("plan_name",)
     search_fields = ("name", "trainer", "description")
-    # inlines = [ScheduleInline]
     filter_horizontal = ("users", "schedules")
     readonly_fields = ("user_count", "schedule_count")
 
